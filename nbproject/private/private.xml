@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/java/controller/Vnpay.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>96</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/web/manage-account.jsp</file>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/src/java/controller/ManageAmount.java</file>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/src/java/dal/userDAO.java</file>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/src/java/controller/AddTransaction.java</file>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/src/java/ultis/PayConfig.java</file>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/src/java/model/ProviderDetail.java</file>
+            <file>file:/E:/ISP392_IS1804_G4/CardSeller/src/java/dal/transactionDAO.java</file>
+        </group>
+    </open-files>
+</project-private>
