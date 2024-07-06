@@ -156,7 +156,7 @@
     <body>
         <div class="container light-style flex-grow-1 container-p-y">
             <h4 class="font-weight-bold py-3 mb-4">
-                Account settings
+                Lịch sử giao dịch
             </h4>
             <div class="card overflow-hidden">
                 <div class="row no-gutters row-bordered row-border-light">
@@ -240,7 +240,7 @@
                 </div>
             </div> 
             <div class="text-right mt-3">
-                <a href="home" class="btn btn-primary" >Back to Home</a>
+                <a href="home" class="btn btn-primary" >Quay về trang chủ</a>
             </div>
         </div>         
     </body>

@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>User profile</title>
+        <title>Hồ sơ người dùng</title>
         <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -156,16 +156,16 @@
         <c:set var="acc" value="${sessionScope.acc}"/>
         <div class="container light-style flex-grow-1 container-p-y">
             <h4 class="font-weight-bold py-3 mb-4">
-                Account settings
+                Thiết lập tài khoản
             </h4>
             <div class="card overflow-hidden">
                 <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-3 pt-0">
                         <div class="list-group list-group-flush account-settings-links">
                             <a class="list-group-item list-group-item-action active" data-toggle="list"
-                               href="#account-general">General info</a>
+                               href="#account-general">Thông tin chung</a>
                             <a class="list-group-item list-group-item-action" data-toggle="list"
-                               href="#account-notifications">Notifications</a>
+                               href="#account-notifications">Thông báo</a>
                         </div>
                     </div>
                     <div class="col-md-9">                       
@@ -175,38 +175,38 @@
                                 <hr class="border-light m-0">
                                 <div class="card-body">
                                      <div class="form-group">
-                                        <label class="form-label">User ID</label>
+                                        <label class="form-label">Mã số người dùng</label>
                                         <input type="text" class="form-control mb-1" value="${acc.ID}" readonly>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Username</label>
+                                        <label class="form-label">Tên</label>
                                         <input type="text" class="form-control mb-1" value="${acc.username}" readonly>
                                     </div>
-                                    <a href="change-password.jsp" class="btn btn-facebook">Change password</a>
+                                    <a href="change-password.jsp" class="btn btn-facebook">Đổi mật khẩu</a>
                                 </div>
                                 <hr class="border-light m-0">
                                 <div class="card-body pb-2">
                                     <h6 class="mb-4">Contacts</h6>
                                     <div class="form-group">
-                                        <label class="form-label">Phone</label>
+                                        <label class="form-label">Số điện thoại</label>
                                         <input type="text" class="form-control mb-1" readonly value="${acc.phoneNumber}">
                                         <!-- Button trigger modal -->
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#phoneChange">Edit</button>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#phoneChange">Chỉnh sửa</button>
                                     </div>
                                     <!-- Phone change Modal -->
                                     <div class="modal fade" id="phoneChange" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="phoneChangeLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="phoneChangeLabel">Change your phone number</h5>                                     
+                                                    <h5 class="modal-title" id="phoneChangeLabel">Thay đổi số điện thoại</h5>                                     
                                                 </div>
                                                 <div class="modal-body">
                                                     <input type="text" class="form-control" id="phonenum" name="phonenum"
                                                            placeholder="Phonenum" value="${acc.phoneNumber}" required>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                    <button type="submit" id="btnChangePhoneNum" class="btn btn-primary" >Save</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                    <button type="submit" id="btnChangePhoneNum" class="btn btn-primary" >Lưu</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -215,23 +215,23 @@
                                         <label class="form-label">E-mail</label>
                                         <input type="text" class="form-control mb-1 " readonly value="${acc.email}">                                      
                                         <!-- Button trigger modal -->
-                                        <button class="btn btn-default" data-toggle="modal" data-target="#emailChange">Change email</button>                                   
+                                        <button class="btn btn-default" data-toggle="modal" data-target="#emailChange">Đổi email</button>                                   
                                     </div>
                                     <!-- Email change Modal -->
                                     <div class="modal fade" id="emailChange" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="emailChangeLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="emailChangeLabel">Change your email account</h5>
+                                                    <h5 class="modal-title" id="emailChangeLabel">Thay đổi tài khoản email</h5>
                                                 </div>
                                                 <div class="modal-body">
                                                     <input type="text" class="form-control" id="email" name="email"
                                                            placeholder="Email" value="${acc.email}" required>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                                                     <button type="submit" id="btnChangeMail"  class="btn btn-primary"
-                                                            data-toggle="modal" data-target="#emailChange2" data-dismiss="modal">Send OTP</button>
+                                                            data-toggle="modal" data-target="#emailChange2" data-dismiss="modal">Gửi mã OTP</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -241,7 +241,7 @@
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="emailChangeLabel2">Enter OTP Code</h5>
+                                                    <h5 class="modal-title" id="emailChangeLabel2">Nhập mã OTP</h5>
                                                 </div>
                                                 <div class="modal-body">
                                                     <input name="otp" class="form-control" id="otp" type="number" required placeholder="Enter OTP"/>
@@ -250,7 +250,7 @@
                                                 <div class="modal-footer">
                                                     <button class="btn btn-default" data-toggle="modal" data-target="#emailChange" data-dismiss="modal">Back</button>
                                                     <button type="submit" id="btnChangeMail2"
-                                                            class="btn btn-primary" >Confirm</button>
+                                                            class="btn btn-primary" >Xác nhận</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -260,7 +260,7 @@
                             <!-- notification tab -->
                             <div class="tab-pane fade" id="account-notifications">
                                 <div class="card-body pb-2">
-                                    <h6 class="mb-4">Activity</h6>
+                                    <h6 class="mb-4">Hoạt động</h6>
                                     <div class="form-group">
                                         <label class="switcher">
                                             <input type="checkbox" class="switcher-input" checked>
@@ -333,7 +333,7 @@
                 </div>
             </div>
             <div class="text-right mt-3">
-                <a href="home" class="btn btn-primary" >Back to Home</a>
+                <a href="home" class="btn btn-primary" >Quay về trang chủ</a>
             </div>
         </div>
     </body>

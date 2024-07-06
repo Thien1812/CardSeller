@@ -15,7 +15,7 @@
         <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
         <!-- Custom styles for this template -->
         <script src="assets/js/jquery-1.11.3.min.js"></script>
-          <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
+        <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
         <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
         <script defer src="assets/js/bootstrap.bundle.js"></script>
         <style>
@@ -143,20 +143,20 @@
             }
         </style>
     </head>
-   <%
-        User acc = (User) request.getSession().getAttribute("acc");
-        try{
-        if(acc==null){
-        response.sendRedirect("login.jsp");
-        }
-    }catch(Exception e){
-        response.sendRedirect("login.jsp");
-    }
+    <%
+         User acc = (User) request.getSession().getAttribute("acc");
+         try{
+         if(acc==null){
+         response.sendRedirect("login.jsp");
+         }
+     }catch(Exception e){
+         response.sendRedirect("login.jsp");
+     }
     %>
     <body>
         <div class="container light-style flex-grow-1 container-p-y">
             <h4 class="font-weight-bold py-3 mb-4">
-                Account settings
+                Nạp tiền
             </h4>
             <div class="card overflow-hidden">
                 <div class="row no-gutters row-bordered row-border-light">
@@ -185,13 +185,10 @@
                                         <h5>Cách 2: Tách phương thức tại site của đơn vị kết nối</h5>
                                         <input type="radio" id="bankCode" name="bankCode" value="VNPAYQR">
                                         <label for="bankCode">Thanh toán bằng ứng dụng hỗ trợ VNPAYQR</label><br>
-
                                         <input type="radio" id="bankCode" name="bankCode" value="VNBANK">
                                         <label for="bankCode">Thanh toán qua thẻ ATM/Tài khoản nội địa</label><br>
-
                                         <input type="radio" id="bankCode" name="bankCode" value="INTCARD">
                                         <label for="bankCode">Thanh toán qua thẻ quốc tế</label><br>
-
                                     </div>
                                     <div class="form-group">
                                         <h5>Chọn ngôn ngữ giao diện thanh toán:</h5>
@@ -200,7 +197,9 @@
                                         <input type="radio" id="language" name="language" value="en">
                                         <label for="language">Tiếng anh</label><br>
                                     </div>
-                                    <button type="submit" class="btn btn-info" >Thanh toán</button>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-info" >Thanh toán</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -208,7 +207,7 @@
                 </div>
             </div> 
             <div class="text-right mt-3">
-                <a href="home" class="btn btn-primary" >Back to Home</a>
+                <a href="home" class="btn btn-primary" >Quay về trang chủ</a>
             </div>
         </div>    
         <script type="text/javascript">
@@ -236,7 +235,7 @@
                 });
                 return false;
             });
-          
+
         </script>       
     </body>
 </html>

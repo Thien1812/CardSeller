@@ -127,23 +127,23 @@
     <body>
         <div class="container">
             <div style="margin: 0 auto;width:40%;margin-top:50px"> 
-                <h4>Change Password form</h4>
+                <h4>Thay đổi mật khẩu</h4>
                 <form action="changeP" method="post">
                     <div class="form-group">
-                        <label class="form-label">Current password</label>
+                        <label class="form-label">Mật khẩu hiện tại</label>
                         <input type="password" class="form-control" name="oldpass">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">New password</label>
+                        <label class="form-label">Mật khẩu mới</label>
                         <input type="password" class="form-control" name="pass">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Repeat new password</label>
+                        <label class="form-label">Nhập lại mật khẩu mới</label>
                         <input type="password" class="form-control" name="passC">
                     </div>
                     <h6 style="color: red">${requestScope.error}</h6> 
-                    <button type="submit" class="btn btn-primary">Change</button>
-                    <a href="profile.jsp" class="btn btn-facebook">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Thay đổi</button>
+                    <a href="profile.jsp" class="btn btn-facebook">Hủy</a>
                 </form>
             </div> 
     </body>
