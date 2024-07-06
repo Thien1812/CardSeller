@@ -77,12 +77,28 @@ public class transactionDAO extends DBContext {
         return uW;
     }
 
-    public List<TransHistory> getTransHistory(int uid, int idx) throws SQLException {
+    public int getTotalUserTransaction(int uwid) {
+        String sql = "select count(*) from TransactionHisotry where UserWalletID=?  ";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, uwid);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+
+        }
+        return count;
+    }
+
+    public List<TransHistory> getTransHistory(int uwid, int idx) throws SQLException {
         List<TransHistory> list = new ArrayList<>();
         String sql = "select* from TransactionHistory where UserWalletID=? ORDER BY ID OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
         PreparedStatement st = connection.prepareStatement(sql);
-        try {         
-            st.setInt(1, (idx - 1) * 10);
+        try {
+            st.setInt(1, uwid);
             st.setInt(2, (idx - 1) * 10);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -103,7 +119,7 @@ public class transactionDAO extends DBContext {
         } finally {
             st.close();
         }
-        
+
         return list;
     }
 
@@ -132,7 +148,9 @@ public class transactionDAO extends DBContext {
                         rs.getDate("deletedAt"));
                 list.add(transHis);
             }
+            //check the list
             for (int i = 0; i < list.size(); i++) {
+                //amount increase when have a success transfer
                 if (list.get(i).isSuccessStatus() == true) {
                     currAmount += list.get(i).getAmount();
                 }
@@ -146,7 +164,7 @@ public class transactionDAO extends DBContext {
             st3.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
-        } 
+        }
     }
 
     public void AddTransactionRecord(int uID, double amount, String method, boolean status) throws SQLException {
