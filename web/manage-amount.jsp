@@ -218,7 +218,7 @@
                                                                         <c:if test="${w.processStatus==false}"><input type="text" class="form-control" name="phonenum" value="Không thành công" readonly></c:if>
                                                                         </div>
                                                                         <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="pagination">
                                     <c:forEach begin="1" end="${endP}" var="i">
-                                        <a href="manageaccount?idx=${i}" class="page-item">${i}</a>
+                                        <a href="manageamount?idx=${i}" class="page-item">${i}</a>
                                     </c:forEach>
                                 </div>
                             </div>
