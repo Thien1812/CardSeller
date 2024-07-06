@@ -1,0 +1,247 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.User" %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Tạo mới đơn hàng</title>
+        <!-- Bootstrap core CSS -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Custom styles for this template -->
+        <script src="assets/js/jquery-1.11.3.min.js"></script>
+        <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
+        <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
+        <script defer src="assets/js/bootstrap.bundle.js"></script>
+        <style>
+            body {
+                background: #f5f5f5;
+                margin-top: 20px;
+            }
+
+            .ui-w-80 {
+                width : 80px !important;
+                height: auto;
+            }
+
+            .btn-default {
+                border-color: rgba(24, 28, 33, 0.1);
+                background  : rgba(0, 0, 0, 0);
+                color       : #4E5155;
+            }
+
+            label.btn {
+                margin-bottom: 0;
+            }
+
+            .btn-outline-primary {
+                border-color: #26B4FF;
+                background  : transparent;
+                color       : #26B4FF;
+            }
+
+            .btn {
+                cursor: pointer;
+            }
+
+            .text-light {
+                color: #babbbc !important;
+            }
+
+            .btn-facebook {
+                border-color: rgba(0, 0, 0, 0);
+                background  : #3B5998;
+                color       : #fff;
+            }
+
+            .btn-instagram {
+                border-color: rgba(0, 0, 0, 0);
+                background  : #000;
+                color       : #fff;
+            }
+
+            .card {
+                background-clip: padding-box;
+                box-shadow     : 0 1px 4px rgba(24, 28, 33, 0.012);
+            }
+
+            .row-bordered {
+                overflow: hidden;
+            }
+
+            .account-settings-fileinput {
+                position  : absolute;
+                visibility: hidden;
+                width     : 1px;
+                height    : 1px;
+                opacity   : 0;
+            }
+
+            .account-settings-links .list-group-item.active {
+                font-weight: bold !important;
+            }
+
+            html:not(.dark-style) .account-settings-links .list-group-item.active {
+                background: transparent !important;
+            }
+
+            .account-settings-multiselect~.select2-container {
+                width: 100% !important;
+            }
+
+            .light-style .account-settings-links .list-group-item {
+                padding     : 0.85rem 1.5rem;
+                border-color: rgba(24, 28, 33, 0.03) !important;
+            }
+
+            .light-style .account-settings-links .list-group-item.active {
+                color: #4e5155 !important;
+            }
+
+            .material-style .account-settings-links .list-group-item {
+                padding     : 0.85rem 1.5rem;
+                border-color: rgba(24, 28, 33, 0.03) !important;
+            }
+
+            .material-style .account-settings-links .list-group-item.active {
+                color: #4e5155 !important;
+            }
+
+            .dark-style .account-settings-links .list-group-item {
+                padding     : 0.85rem 1.5rem;
+                border-color: rgba(255, 255, 255, 0.03) !important;
+            }
+
+            .dark-style .account-settings-links .list-group-item.active {
+                color: #fff !important;
+            }
+
+            .light-style .account-settings-links .list-group-item.active {
+                color: #4E5155 !important;
+            }
+
+            .light-style .account-settings-links .list-group-item {
+                padding     : 0.85rem 1.5rem;
+                border-color: rgba(24, 28, 33, 0.03) !important;
+            }
+            .warning{
+                outline:none;
+                border: none;
+                font-family: "Inter";
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 1.3;
+                width: 100%;
+                height: 100%;
+                border-radius: 6px;
+                text-align: justify;
+            }
+        </style>
+    </head>
+    <%
+         User acc = (User) request.getSession().getAttribute("acc");
+         try{
+         if(acc==null){
+         response.sendRedirect("login.jsp");
+         }
+     }catch(Exception e){
+         response.sendRedirect("login.jsp");
+     }
+    %>
+    <body>
+        <div class="container light-style flex-grow-1 container-p-y">
+            <h4 class="font-weight-bold py-3 mb-4">
+                Account settings
+            </h4>
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <div class="col-md-3 pt-0">
+                        <div class="list-group list-group-flush account-settings-links">
+                            <a class="list-group-item list-group-item-action " 
+                               href="vnpay_pay.jsp">Nạp tiền</a>
+                            <a class="list-group-item list-group-item-action active" data-toggle="list"
+                               href="#transaction-his">Lịch sử giao dịch</a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">                       
+                        <div class="tab-content">
+                            <!-- General info tab -->
+                            <div class="tab-pane active show" id="transaction-his">
+                                <div class="table-responsive">
+                                    <table class="table">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Mã giao dịch</th>
+                                                <th>Số tiền</th>
+                                                <th>Phương thức</th>
+                                                <th>Xử lý</th>
+                                                <th>Trạng thái giao dịch</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${requestScope.list1}" var="w">
+                                                <c:set var="id" value="${w.ID}"/>
+                                                <tr>
+                                                    <td>${id}</td>
+                                                    <td>${w.amount}</td>
+                                                    <td>${w.method}</td>
+                                                    <td>
+                                                        <c:if test="${w.processStatus==true}">Đã xử lý</c:if>
+                                                        <c:if test="${w.processStatus==false}">Chưa xử lý</c:if> </td>
+                                                        <td>
+                                                        <c:if test="${w.successStatus==true}">Thành công</c:if>
+                                                        <c:if test="${w.successStatus==false}">Không thành công</c:if></td>
+                                                    <td>${w.createdAt}</td>
+                                                    <td><button class="btn btn-info" data-toggle="modal" data-target="#Detail">Chi tiết</button>
+                                                        <!-- Detail Modal -->
+                                                        <div class="modal fade" id="Detail" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="DetailLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="DetailLabel">Lịch sử giao dịch</h5>                                     
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <input type="text" class="form-control" name="ID" value="${id}" readonly>
+                                                                        <input type="text" class="form-control" name="amount" value="${w.amount}" readonly>
+                                                                        <input type="text" class="form-control" name="method" value="${w.method}" readonly>
+                                                                        <c:if test="${w.processStatus==true}"><input type="text" class="form-control" name="phonenum" value="Đã xử lý" readonly></c:if>
+                                                                        <c:if test="${w.processStatus==false}"><input type="text" class="form-control" name="phonenum" value="Chưa xử lý" readonly></c:if>
+                                                                        <c:if test="${w.processStatus==true}"><input type="text" class="form-control" name="phonenum" value="Thành công" readonly></c:if>
+                                                                        <c:if test="${w.processStatus==false}"><input type="text" class="form-control" name="phonenum" value="Không thành công" readonly></c:if>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="pagination">
+                                    <c:forEach begin="1" end="${endP}" var="i">
+                                        <a href="manageaccount?idx=${i}" class="page-item">${i}</a>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="text-right mt-3">
+                <a href="home" class="btn btn-primary" >Back to Home</a>
+            </div>
+        </div>         
+    </body>
+</html>

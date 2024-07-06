@@ -65,7 +65,8 @@
                 </c:if>
 
                 <c:if test="${acc != null}">
-                    <a href="vnpay_pay.jsp">${uwallet.amount}</a>
+                    <a href="vnpay_pay.jsp">Nạp tiền</a>
+                    <a href="manageamount">Số dư:${uwallet.amount}đ</a>
                     <a href="profile.jsp">${acc.username}/</a>
                     <a href="logout">Log out</a>
                 </c:if>
@@ -89,7 +90,7 @@
                         <nav class="header__menu">
                             <ul>
                                 <li class="#">
-                                    <a href="#">Trang chủ</a>
+                                    <a href="home">Trang chủ</a>
                                 </li>
                                 <li class="#">
                                     <a href="#">Sản phẩm</a>
@@ -113,7 +114,8 @@
                                 </c:if>
 
                                 <c:if test="${acc != null}">
-                                    <a href="vnpay_pay.jsp">Số dư:${uwallet.amount}đ</a>
+                                    <a href="vnpay_pay.jsp">Nạp tiền</a>
+                                    <a href="manageamount">Số dư:${uwallet.amount}đ</a>
                                     <a href="profile.jsp"><b>${acc.username}</b></a>
                                     <a href="logout">Log out</a>
                                 </c:if>

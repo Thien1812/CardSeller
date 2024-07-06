@@ -163,9 +163,9 @@
                     <div class="col-md-3 pt-0">
                         <div class="list-group list-group-flush account-settings-links">
                             <a class="list-group-item list-group-item-action active" data-toggle="list"
-                               href="#deposit">Deposit</a>
-                            <a class="list-group-item list-group-item-action" data-toggle="list"
-                               href="#transaction-his">Transaction History</a>
+                               href="#deposit">Nạp tiền</a>
+                            <a class="list-group-item list-group-item-action" 
+                               href="manageamount">Lịch sử giao dịch</a>
                         </div>
                     </div>
                     <div class="col-md-9">                       
@@ -203,7 +203,6 @@
                                     <button type="submit" class="btn btn-info" >Thanh toán</button>
                                 </form>
                             </div>
-                            <div class="tab-pane fade" id="transaction-his"></div>
                         </div>
                     </div>
                 </div>
