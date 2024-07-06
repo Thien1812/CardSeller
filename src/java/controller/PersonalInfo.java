@@ -125,7 +125,7 @@ public class PersonalInfo extends HttpServlet {
                     //Fail
                      PrintWriter out = response.getWriter();
                      //send error string to ajax function success(error)
-                    out.println("OTP verification failed!"); 
+                    out.println("Xác nhận OTP không thành công!"); 
                 }
             }
         } catch (Exception e) {
