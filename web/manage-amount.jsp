@@ -214,8 +214,8 @@
                                                                         <input type="text" class="form-control" name="method" value="${w.method}" readonly>
                                                                         <c:if test="${w.processStatus==true}"><input type="text" class="form-control" name="phonenum" value="Đã xử lý" readonly></c:if>
                                                                         <c:if test="${w.processStatus==false}"><input type="text" class="form-control" name="phonenum" value="Chưa xử lý" readonly></c:if>
-                                                                        <c:if test="${w.processStatus==true}"><input type="text" class="form-control" name="phonenum" value="Thành công" readonly></c:if>
-                                                                        <c:if test="${w.processStatus==false}"><input type="text" class="form-control" name="phonenum" value="Không thành công" readonly></c:if>
+                                                                        <c:if test="${w.successStatus==true}"><input type="text" class="form-control" name="phonenum" value="Thành công" readonly></c:if>
+                                                                        <c:if test="${w.successStatus==false}"><input type="text" class="form-control" name="phonenum" value="Không thành công" readonly></c:if>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
