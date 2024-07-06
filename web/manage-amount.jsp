@@ -181,7 +181,6 @@
                                                 <th>Số tiền</th>
                                                 <th>Phương thức</th>
                                                 <th>Xử lý</th>
-                                                <th>Trạng thái giao dịch</th>
                                                 <th>Ngày tạo</th>
                                                 <th>Hành động</th>
                                             </tr>
@@ -196,27 +195,28 @@
                                                     <td>
                                                         <c:if test="${w.processStatus==true}">Đã xử lý</c:if>
                                                         <c:if test="${w.processStatus==false}">Chưa xử lý</c:if> </td>
-                                                        <td>
-                                                        <c:if test="${w.successStatus==true}">Thành công</c:if>
-                                                        <c:if test="${w.successStatus==false}">Không thành công</c:if></td>
                                                     <td>${w.createdAt}</td>
-                                                    <td><button class="btn btn-info" data-toggle="modal" data-target="#Detail">Chi tiết</button>
-                                                        <!-- Detail Modal -->
-                                                        <div class="modal fade" id="Detail" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="DetailLabel" aria-hidden="true">
+                                                    <!<!-- Button target to certain id modal -->
+                                                    <td><button class="btn btn-info" data-toggle="modal" data-target="#Detail${id}">Chi tiết</button>
+                                                        <!-- Detail Modal with the id have transaction id -->
+                                                        <div class="modal fade" id="Detail${id}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="Detail${id}Label" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title" id="DetailLabel">Lịch sử giao dịch</h5>                                     
+                                                                        <h5 class="modal-title" id="Detail${id}Label">Lịch sử giao dịch</h5>                                     
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <input type="text" class="form-control" name="ID" value="${id}" readonly>
-                                                                        <input type="text" class="form-control" name="amount" value="${w.amount}" readonly>
-                                                                        <input type="text" class="form-control" name="method" value="${w.method}" readonly>
-                                                                        <c:if test="${w.processStatus==true}"><input type="text" class="form-control" name="phonenum" value="Đã xử lý" readonly></c:if>
-                                                                        <c:if test="${w.processStatus==false}"><input type="text" class="form-control" name="phonenum" value="Chưa xử lý" readonly></c:if>
-                                                                        <c:if test="${w.successStatus==true}"><input type="text" class="form-control" name="phonenum" value="Thành công" readonly></c:if>
-                                                                        <c:if test="${w.successStatus==false}"><input type="text" class="form-control" name="phonenum" value="Không thành công" readonly></c:if>
-                                                                        </div>
+                                                                        Mã giao dịch <input type="text" class="form-control" name="ID" value="${id}" readonly>
+                                                                        Số tiền<input type="text" class="form-control" name="amount" value="${w.amount}" readonly>
+                                                                        Phương thức<input type="text" class="form-control" name="method" value="${w.method}" readonly>
+                                                                        Xử lý 
+                                                                        <c:if test="${w.processStatus==true}"><input type="text" class="form-control bg-info" name="pStatus" value="Đã xử lý" readonly></c:if>
+                                                                        <c:if test="${w.processStatus==false}"><input type="text" class="form-control bg-warning" name="pStatus" value="Chưa xử lý" readonly></c:if>
+                                                                        Trạng thái giao dịch
+                                                                        <c:if test="${w.successStatus==true}"><input type="text" class="form-control bg-info" name="sStatus" value="Thành công" readonly></c:if>
+                                                                        <c:if test="${w.successStatus==false}"><input type="text" class="form-control bg-warning" name="sStatus" value="Không thành công" readonly></c:if>
+                                                                        Ngày tạo<input type="text" class="form-control" name="ID" value="${w.createdAt}" readonly>
+                                                                    </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                                                         </div>
