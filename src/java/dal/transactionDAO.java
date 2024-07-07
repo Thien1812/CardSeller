@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.TransHistory;
 import model.UserWallet;
-import model.viewModel.CardHomepageVM;
 
 /**
  *
@@ -153,15 +152,16 @@ public class transactionDAO extends DBContext {
                 //amount increase when have a success transfer
                 if (list.get(i).isSuccessStatus() == true) {
                     currAmount += list.get(i).getAmount();
+                    PreparedStatement st3 = connection.prepareStatement(sql3);
+                    st3.setDouble(1, currAmount);
+                    st3.setInt(2, uID);
+                    st3.executeUpdate();
                 }
+                //update transaction status
                 PreparedStatement st2 = connection.prepareStatement(sql2);
                 st2.setInt(1, list.get(i).getID());
                 st2.executeUpdate();
             }
-            PreparedStatement st3 = connection.prepareStatement(sql3);
-            st3.setDouble(1, currAmount);
-            st3.setInt(2, uID);
-            st3.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
