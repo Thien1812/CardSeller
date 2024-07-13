@@ -1,4 +1,4 @@
-Create database SellCard
+	Create database SellCard
 GO
 USE SellCard
 GO

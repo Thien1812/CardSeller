@@ -34,7 +34,6 @@ public class DeleteProduct extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("id");
         cardDAO d = new cardDAO();
-        d.deleteCardDetail(id);
         d.deleteProvider(id);
         response.sendRedirect("manageproduct");
     }

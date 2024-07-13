@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Manage Account</title>
+        <title>Quản lý tài khoản</title>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <style>
             * {
@@ -195,9 +195,9 @@
         %>
         <body>
             <main class="res_table">              
-                <h3><a class="nav-link active" aria-current="page" href="home">Home</a></h3>
+                <h3><a class="nav-link active" aria-current="page" href="home">Trang chủ</a></h3>
                 <section class="t_header">
-                    <h1>Account List</h1>
+                    <h1>Danh sách tài khoản</h1>
                     <div class="search-group">
                         <input type="search" placeholder="Search data...">
                         <img src="image/search.png" alt=""/>
@@ -207,15 +207,15 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Username</th>
+                                <th>Mã số</th>
+                                <th>Tên người dùng</th>
                                 <th>Email</th>
-                                <th>PhoneNumber</th>
-                                <th>CreatedAt</th>
-                                <th>UpdateAt</th>
-                                <th>Status</th>
-                                <th>Role</th>
-                                <th>Action</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày tạo</th>
+                                <th>Ngày cập nhật</th>
+                                <th>Trạng thái</th>
+                                <th>Vai trò</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -230,11 +230,11 @@
                                         <td>${c.createdAt}</td>
                                         <td>${c.updatedAt}</td>
                                         <td>
-                                            <c:if test="${c.isDeleted==true}">Deactivated <br>at ${c.deletedAt}</c:if>
-                                            <c:if test="${c.isDeleted==false}"> Activated</c:if>                                              
+                                            <c:if test="${c.isDeleted==true}">Ngưng kích hoạt<br>vào ${c.deletedAt}</c:if>
+                                            <c:if test="${c.isDeleted==false}">Đang kích hoạt</c:if>                                              
                                             </td>
                                             <td>${c.role}</td>
-                                        <td><a href="manageaccount?aid=${id}&st=${c.isDeleted}" class="S_button">Status change</a>
+                                        <td><a href="manageaccount?aid=${id}&st=${c.isDeleted}" class="S_button">Đổi trạng thái</a>
                                         </td>
                                     </tr>
                                 </c:if>

@@ -8,11 +8,10 @@
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="./index.html"><img src="${pageContext.request.contextPath}/img/logo-card.jpg" alt=""></a>
+                        <a href="home"><img src="${pageContext.request.contextPath}/img/logo-card.jpg" alt=""></a>
                     </div>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        cilisis.
+                        Nạp tiền dễ dàng - Thanh toán an toàn - Chọn quà hấp dẫn
                     </p>
                     <div class="footer__payment">
                         <a href="#"><img src="${pageContext.request.contextPath}/img/payment/payment-1.png" alt=""></a>

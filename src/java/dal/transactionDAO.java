@@ -123,7 +123,6 @@ public class transactionDAO extends DBContext {
     }
 
     public void updateUserWallet(int uID) throws SQLException {
-        double currAmount = getUserWallet(uID).getAmount();
         int userWalletID = getUserWallet(uID).getID();
         String sql = "select* from TransactionHistory where UserWalletID=? AND processStatus=0";
         String sql2 = "Update TransactionHistory set processStatus=1 where ID=?";
@@ -132,6 +131,7 @@ public class transactionDAO extends DBContext {
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, userWalletID);
+            double currAmount = getUserWallet(uID).getAmount();
             ResultSet rs = st.executeQuery();
             //get the list new transaction (processStatus=0)
             while (rs.next()) {

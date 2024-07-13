@@ -39,9 +39,9 @@
                             <a class="nav-link" href="manageproduct">Manage Product</a>
                         </li>
                     </ul>
-                   
+
                 </div>
-                
+
             </div>
         </nav>
 
@@ -50,15 +50,12 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="card">
-                   
+
                             <div class="card-body">
                                 <form action="editproduct" method="post">
-                                     <div class="form-group row">
-                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Card ID</label>
-                                        <div class="col-md-6">
-                                            <input type="text" id="email_address" class="form-control" name="cid" value="${card.id}" readonly />
-                                        </div>
-                                    </div>
+
+                                    <input type="hidden" id="email_address" class="form-control" name="cid" value="${card.id}" readonly />
+
                                     <div class="form-group row">
                                         <label for="email_address" class="col-md-4 col-form-label text-md-right">Provider</label>
                                         <div class="col-md-6">
@@ -78,12 +75,12 @@
                                             <select type="text" id="password" class="form-control" name="category" value="${card.category}">
                                                 <option value="phonecard">Phone Card</option>
                                                 <option value="gamecard">Game Card</option>
-                          
+
                                             </select>
 
                                         </div>
                                     </div>
-                          
+
                                     <div class="form-group row">
                                         <div class="col-md-6 offset-md-4">
                                             <div class="checkbox">

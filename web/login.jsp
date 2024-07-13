@@ -5,24 +5,26 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Đăng nhập</title>
         <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
         <style>
             body {
-                background-image: url(image/signup/cardTransfer.jpg);
-                background-size: 100%;
+                background-image: url(image/signup/background.jpg);
+                background-size:100%;
+            }
+            .container{
+                display:flex;
+                justify-content: center;
+                align-items: center;
+                height:100dvh;
             }
             .login {
-                margin: 0 auto;
-                width:40%;
-                margin-top:50px;
                 width: 420px;
                 height: 673px;
-                padding: 8px;
                 border-width: 1px;
                 border-style: solid;
                 border-radius:10px;
-                border-color: #7C4DFF;
+                border-color: #F0E6EF;
                 background: #FFFFFF;
                 text-align: center;
             }
@@ -90,11 +92,11 @@
             button{
                 width: 300px;
                 height: 48px;
-                background:#7C4DFF;
-                border-color:#7C4DFF;
+                background:#B8BEDE;
+                border-color:#B8BEDE;
                 border-width: 1px;
                 border-style: solid;
-                border-radius: 9px;
+                border-radius: 6px;
                 font-family: "Inter";
                 font-weight: 600;
                 font-size: 16px;
@@ -150,8 +152,8 @@
                     </div>
                     <input class="warning" style="color: red"  type="text" readonly value="${requestScope.mess}"/>
                     <button type="submit" class="">Login</button>
-                    <h6> <a href="forgot-password.jsp" style="color:#7C4DFF; text-decoration: underline;">Forgot your password?</a></h6>
-                    <h6> <a href="signup.jsp" style="color:#7C4DFF; text-decoration: underline;">Create a new account</a></h6>
+                    <h6> <a href="forgot-password.jsp" style="color:#9C8BB4; text-decoration: underline;">Forgot your password?</a></h6>
+                    <h6> <a href="signup.jsp" style="color:#9C8BB4; text-decoration: underline;">Create a new account</a></h6>
                 </form>
             </div> 
         </div>

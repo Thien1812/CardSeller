@@ -7,8 +7,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="home"><i class="fa fa-home"></i> Trang chủ</a>
-                        <span>Vỏ hàng của bạn</span>
+                        <a href="home"><i class="fa fa-home"></i> Trang chủ </a>
+                        <span>Giỏ hàng của bạn</span>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,6 @@
 
                                             <tr>
                                                 <td class="cart__product__item">
-                                                    <img src="" width="90px" height="90px" alt="Anh san pham">
                                                     <div class="cart__product__item__title">
                                                         <h6>${c.providerName}</h6>
                                                     </div>
@@ -56,17 +55,18 @@
                                                 <td class="cart__price">${c.price}VNĐ</td>
                                                 <td class="cart__quantity">
                                                     <div class="pro-qty">
-                                                        <span class="dec qtybtn" onclick="descreaseQuantity('@item.ItemId')">-</span>
+                                                        <a class="dec qtybtn" href="cart?action=update&cartItemId=${c.id}&card-quantity=${c.quantity - 1}">-</a>
                                                         <input type="text"  value="${c.quantity}"/>
-                                                        <span class="inc qtybtn" onclick="increaseQuantity('@item.ItemId')">+</span>
+                                                        <a class="inc qtybtn" href="cart?action=update&cartItemId=${c.id}&card-quantity=${c.quantity + 1}">+</a>
                                                     </div>
                                                 </td>
                                                 <td class="cart__total">${c.totalPrice}VNĐ</td>
-                                                <td class="cart__close">
-                                                        <a class="delete-item" onclick="removeItemFromCart('@item.ItemId')" data-itemid="@item.ItemId">
-                                                            <span class="icon_close"></span>
-                                                        </a>
+                                                <td >
+                                                    <a href="cart?action=remove&cartItemId=${c.id}">
+                                                        <span>X</span>
+                                                    </a>
                                                 </td>
+
                                             </tr>
                                         </c:forEach>
 
@@ -78,12 +78,13 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="cart__btn">
-                                <a href="homme">Tiếp tục mua sắm</a>
+                                <a href="home">Tiếp tục mua sắm</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="cart__btn update__btn">
-                                <a href="#"><span class="icon_loading"></span> cập nhật giả hàng</a>
+                                <a href="#"><span class="icon_loading"></span> Cập nhật giỏ hàng</a>
+                                
                             </div>
                         </div>
                     </div>
@@ -102,9 +103,7 @@
                             <div class="cart__total__procced">
                                 <h6>Chi tiết thanh toán</h6>
                                 <ul>
-                                    <li>Tổng tiền hàng <span>0VNĐ</span></li>
-                                    <li>Chi phí vận chuyển <span>0đ</span></li>
-                                    <li><strong>Tổng <span>0VNĐ</span></strong></li>
+                                    <li>Tổng giỏ hàng <span>${TOTAL_PRICE} VNĐ</span></li>
                                 </ul>
                                 <a href="checkout" class="primary-btn">Tiến hành đặt hàng</a>
                             </div>
@@ -118,3 +117,5 @@
     <jsp:include page="footer.jsp"/>
 
 </div>
+
+

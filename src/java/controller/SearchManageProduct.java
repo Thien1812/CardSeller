@@ -67,16 +67,20 @@ public class SearchManageProduct extends HttpServlet {
         int idx = Integer.parseInt(idx_r);
         cardDAO d = new cardDAO();
         List<ProviderDetail> list = null;
-        int count = d.getTotalProvider();
+        int count = 0 ;
+        if(search == null){
+        list = d.getProviderPagingManage(idx);
+        count = d.getTotalProvider();
+        }
+        else{
+            list=d.getProviderByName(idx, search);
+            count = d.countSearchName(list);
+        }
         int endPage = count/6;
         if(endPage%6!=0||endPage==0){
             endPage++;
         }
-        if(search == null){
-        list = d.getProviderPagingManage(idx);}
-        else{
-            list=d.getProviderByName(idx, search);
-        }
+        request.setAttribute("search",search);
         request.setAttribute("endP", endPage);
         request.setAttribute("lists", list);
         request.getRequestDispatcher("manage-product.jsp").forward(request, response);

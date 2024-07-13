@@ -20,11 +20,11 @@ public class CardDetail {
     private boolean isDeleted;
     private int deletedBy;
     private String deletedAt;
-
+    private int quantity;
     public CardDetail() {
     }
 
-    public CardDetail(int Id, int providerId, double price, String createdAt, String updatedAt, int createdBy, boolean isDeleted, int deletedBy, String deletedAt) {
+    public CardDetail(int Id, int providerId, double price, String createdAt, String updatedAt, int createdBy, boolean isDeleted, int deletedBy, String deletedAt, int quantity) {
         this.Id = Id;
         this.providerId = providerId;
         this.price = price;
@@ -34,7 +34,18 @@ public class CardDetail {
         this.isDeleted = isDeleted;
         this.deletedBy = deletedBy;
         this.deletedAt = deletedAt;
+        this.quantity = quantity;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    
 
     
 

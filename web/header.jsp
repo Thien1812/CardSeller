@@ -68,7 +68,7 @@
                     <a href="vnpay_pay.jsp">Nạp tiền</a>
                     <a href="manageamount">Số dư:${uwallet.amount}đ</a>
                     <a href="profile.jsp">${acc.username}/</a>
-                    <a href="logout">Log out</a>
+                    <a href="logout">Đăng xuất</a>
                 </c:if>
                 <a href="cart?action=view">Cart</a>
             </div>
@@ -98,7 +98,7 @@
                                 <c:if test="${acc.role == 'admin'}">
                                     <li><a href="manageproduct">Quản lí sản phẩm</a></li>
                                     <li class="">
-                                        <a href="manageaccount">Quản lí account</a>
+                                        <a href="manageaccount">Quản lí tài khoản</a>
                                     </li>
                                 </c:if>
 
@@ -117,7 +117,7 @@
                                     <a href="vnpay_pay.jsp">Nạp tiền</a>
                                     <a href="manageamount">Số dư:${uwallet.amount}đ</a>
                                     <a href="profile.jsp"><b>${acc.username}</b></a>
-                                    <a href="logout">Log out</a>
+                                    <a href="logout">Đăng xuất</a>
                                 </c:if>
                                 <a href="cart?action=view">Cart</a>
                             </div>

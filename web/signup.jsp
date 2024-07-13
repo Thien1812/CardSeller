@@ -9,24 +9,26 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Sign up</title>
+        <title>Đăng ký</title>
         <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
         <style>
             body {
-                background-image: url(image/signup/cardTransfer.jpg);
+                background-image: url(image/signup/background.jpg);
                 background-size:100%;
             }
+            .container{
+                display:flex;
+                justify-content: center;
+                align-items: center;
+                height:100dvh;
+            }
             .signup {
-                margin: 0 auto;
-                width:40%;
-                margin-top:50px;
                 width: 420px;
                 height: 673px;
-                padding: 8px;
                 border-width: 1px;
                 border-style: solid;
                 border-radius:10px;
-                border-color: #7C4DFF;
+                border-color: #F0E6EF;
                 background: #FFFFFF;
                 text-align: center;
             }
@@ -56,6 +58,7 @@
                 border-color: #EBEBEB;
                 border-style: solid;
                 border-radius: 6px;
+                margin-top:5px;
                 margin-bottom: 5px;
                 margin-left: auto;
                 margin-right: auto;
@@ -102,11 +105,11 @@
             button{
                 width: 300px;
                 height: 48px;
-                background:#7C4DFF;
-                border-color:#7C4DFF;
+                background:#B8BEDE;
+                border-color:#B8BEDE;
                 border-width: 1px;
                 border-style: solid;
-                border-radius: 9px;
+                border-radius: 6px;
                 font-family: "Inter";
                 font-weight: 600;
                 font-size: 16px;
@@ -149,14 +152,14 @@
                     <h4>*The password should have
                         1 digit,1 lowercase,1 uppercase letter,1 special character and 8 characters length.</h4>
                     <div class ="text-input">
+                        <img class="icon" src="image/signup/lock.png"/>
+                        <input  type="password" name="pass2" placeholder="Re-enter Password" required/>
+                    </div>    
+                    <div class ="text-input">
                         <img class="icon" src="image/signup/email.png"/>
                         <input  type="text" name="email" placeholder="Email" value="${requestScope.email}" required/>
                     </div>
                     <h4>*The email should already active.</h4>
-                    <div class ="text-input">
-                        <img class="icon" src="image/signup/lock.png"/>
-                        <input  type="password" name="pass2" placeholder="Re-enter Password" required/>
-                    </div>
                     <img src="/CardSeller/captcha" id="captcha"/>
                     <img src="image/reload.jpg" onclick="reloadCaptcha()" width="40" height="40"/>
                     <br>
@@ -167,7 +170,7 @@
                     <input class="warning" style="color: red"  type="text" readonly value="${requestScope.error}"/>
                     <button type="submit" class="">Create</button>
                     <h6>Already have an account?
-                        <a href="login.jsp" style="color:#7C4DFF; text-decoration: underline;">Login here</a></h6>
+                        <a href="login.jsp" style="color:#9C8BB4; text-decoration: underline;">Login here</a></h6>
                 </form>
             </div> 
         </div>
