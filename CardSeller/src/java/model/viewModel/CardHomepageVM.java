@@ -23,6 +23,7 @@ public class CardHomepageVM {
     private int deletedBy;
     private String deletedAt;
     private List<CardDetail> cardPrice;
+    int discount;
 
     public CardHomepageVM() {
     }
@@ -41,7 +42,13 @@ public class CardHomepageVM {
         this.cardPrice = cardPrice;
     }
 
-    
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
 
     public List<CardDetail> getCardPrice() {
         return cardPrice;

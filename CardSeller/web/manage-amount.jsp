@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="model.User" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -141,17 +142,37 @@
                 border-radius: 6px;
                 text-align: justify;
             }
+            .pagination{
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+            .pagination a{
+                color: black;
+                text-decoration: none;
+                padding: 8px 15px;
+                display: inline-block;
+            }
+            .pagination a.active{
+                background-color: #007bff;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+            .pagination a:hover:not(.active){
+                background-color: hsl(0, 0%, 77%);
+                border-radius: 5px;
+            }
         </style>
     </head>
     <%
-         User acc = (User) request.getSession().getAttribute("acc");
-         try{
-         if(acc==null){
-         response.sendRedirect("login.jsp");
-         }
-     }catch(Exception e){
-         response.sendRedirect("login.jsp");
-     }
+        User acc = (User) request.getSession().getAttribute("acc");
+        try{
+        if(acc==null){
+        response.sendRedirect("login.jsp");
+        }
+    }catch(Exception e){
+        response.sendRedirect("login.jsp");
+    }
     %>
     <body>
         <div class="container light-style flex-grow-1 container-p-y">
@@ -190,7 +211,7 @@
                                                 <c:set var="id" value="${w.ID}"/>
                                                 <tr>
                                                     <td>${id}</td>
-                                                    <td>${w.amount}</td>
+                                                    <td><fmt:formatNumber maxFractionDigits = "3" value="${w.amount}"/></td>
                                                     <td>${w.method}</td>
                                                     <td>
                                                         <c:if test="${w.processStatus==true}">Đã xử lý</c:if>
@@ -212,19 +233,19 @@
                                                                         Xử lý 
                                                                         <c:if test="${w.processStatus==true}"><input type="text" class="form-control bg-info" name="pStatus" value="Đã xử lý" readonly></c:if>
                                                                         <c:if test="${w.processStatus==false}"><input type="text" class="form-control bg-warning" name="pStatus" value="Chưa xử lý" readonly></c:if>
-                                                                        Trạng thái giao dịch
+                                                                            Trạng thái giao dịch
                                                                         <c:if test="${w.successStatus==true}"><input type="text" class="form-control bg-info" name="sStatus" value="Thành công" readonly></c:if>
                                                                         <c:if test="${w.successStatus==false}"><input type="text" class="form-control bg-warning" name="sStatus" value="Không thành công" readonly></c:if>
                                                                         Ngày tạo<input type="text" class="form-control" name="ID" value="${w.createdAt}" readonly>
                                                                     </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                                                        </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>

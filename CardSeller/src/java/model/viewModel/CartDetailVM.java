@@ -16,6 +16,7 @@ public class CartDetailVM {
     private int quantity;
     private float price;
     private float totalPrice;
+    private int percent;
 
     public CartDetailVM() {
     }
@@ -27,6 +28,14 @@ public class CartDetailVM {
         this.quantity = quantity;
         this.price = price;
         this.totalPrice = totalPrice;
+    }
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
     }
 
     public void setPrice(float price) {
@@ -76,6 +85,11 @@ public class CartDetailVM {
 
     public float getTotalPrice() {
         return totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "CartDetailVM{" + "Id=" + Id + ", CartDetailId=" + CartDetailId + ", providerName=" + providerName + ", quantity=" + quantity + ", price=" + price + ", totalPrice=" + totalPrice + ", percent=" + percent + '}';
     }
 
 }

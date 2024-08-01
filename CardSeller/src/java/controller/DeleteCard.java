@@ -13,15 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.ProviderDetail;
 
 /**
  *
  * @author PC
  */
-@WebServlet(name="SearchManageProduct", urlPatterns={"/searchmanageproduct"})
-public class SearchManageProduct extends HttpServlet {
+@WebServlet(name="DeleteCard", urlPatterns={"/deletecard"})
+public class DeleteCard extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,18 +31,11 @@ public class SearchManageProduct extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SearchManageProduct</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SearchManageProduct at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        String id = request.getParameter("id");
+        String providerid = request.getParameter("providerid");
+        cardDAO d = new cardDAO();
+        d.deletePrice(id);
+        response.sendRedirect("managecardprice?providerid="+providerid);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,28 +49,7 @@ public class SearchManageProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String search = request.getParameter("search");
-        String idx_r = request.getParameter("idx");
-        if(idx_r==null){
-            idx_r = "1";
-        }
-        int idx = Integer.parseInt(idx_r);
-        cardDAO d = new cardDAO();
-        List<ProviderDetail> list = null;
-        int count = 0 ;
-        if(search == null){
-        list = d.getProviderPagingManage(idx);
-        count = d.getTotalProvider();
-        }
-        else{
-            list=d.getProviderByName(search);
-           
-        }
-        
-        request.setAttribute("search",search);
-        request.setAttribute("lists", list);
-        request.getRequestDispatcher("manage-product.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

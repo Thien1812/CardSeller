@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="manageproduct">Manage Product</a>
+                            <a class="nav-link" href="manageproduct">Nhà Cung Cấp</a>
                         </li>
                     </ul>
 
@@ -57,24 +57,24 @@
                                     <input type="hidden" id="email_address" class="form-control" name="cid" value="${card.id}" readonly />
 
                                     <div class="form-group row">
-                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Provider</label>
+                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Bên Cung Cấp</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="email_address" class="form-control" name="providerName" value="${card.providerName}" />
+                                            <input type="text" id="email_address" class="form-control" name="provider" value="${card.providerName}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="password" class="col-md-4 col-form-label text-md-right">Image</label>
+                                        <label for="password" class="col-md-4 col-form-label text-md-right">Hình ảnh</label>
                                         <div class="col-md-6">
                                             <input type="text" id="password" class="form-control" name="image" value="${card.image}">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="password" class="col-md-4 col-form-label text-md-right">Category</label>
+                                        <label for="password" class="col-md-4 col-form-label text-md-right">Loại thẻ</label>
                                         <div class="col-md-6">
                                             <select type="text" id="password" class="form-control" name="category" value="${card.category}">
-                                                <option value="phonecard">Phone Card</option>
-                                                <option value="gamecard">Game Card</option>
+                                                <option value="phonecard">Thẻ điện thoại</option>
+                                                <option value="gamecard">Thẻ Game</option>
 
                                             </select>
 

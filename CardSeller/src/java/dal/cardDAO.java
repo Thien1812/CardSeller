@@ -7,6 +7,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -63,6 +64,7 @@ public class cardDAO extends DBContext {
                 card.setIsDeleted(rs.getBoolean("isDeleted"));
                 card.setDeletedBy(rs.getInt("deletedBy"));
                 card.setDeletedAt(rs.getString("deletedAt"));
+                
                 listCard.add(card);
             }
             return listCard;
@@ -76,11 +78,57 @@ public class cardDAO extends DBContext {
     }
 
     public List<CardDetail> getCardDetailByProviderID(int id) throws SQLException {
-        String sql = "SELECT * FROM CardDetail WHERE ProviderID = ? and (isDeleted !=1 or isDeleted is null)";
+        String sql = "SELECT * FROM CardDetail Ca\n"
+                + "LEFT join CardDiscount CD on Ca.ID = CD.cardDetailId WHERE Ca.ProviderID = ? "
+                + " and (Ca.isDeleted !=1 or Ca.isDeleted is null)";
         List<CardDetail> listCard = new ArrayList<>();
         PreparedStatement st = connection.prepareStatement(sql);
         try {
             st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            LocalDateTime today = LocalDateTime.now();
+            while (rs.next()) {
+                CardDetail card = new CardDetail();
+                card.setId(rs.getInt("Id"));
+                card.setProviderId(rs.getInt("ProviderID"));
+                card.setPrice(rs.getDouble("price"));
+                card.setCreatedBy(rs.getInt("createdBy"));
+                card.setIsDeleted(rs.getBoolean("isDeleted"));
+                card.setDeletedBy(rs.getInt("deletedBy"));
+                card.setDeletedAt(rs.getString("deletedAt"));
+                card.setCreatedAt(rs.getString("createdAt"));
+                card.setUpdatedAt(rs.getString("updatedAt"));
+                //if discount endDate > today set discount = 0
+                
+                card.setQuantity(rs.getInt("quantity"));
+                LocalDateTime endDate = rs.getTimestamp("endDate") != null ?
+                        rs.getTimestamp("endDate").toLocalDateTime() : null;
+                if(endDate != null && endDate.isAfter(today)) {
+                    card.setDiscount(rs.getInt("percent"));
+                } else {
+                    card.setDiscount(0);
+                }
+                listCard.add(card);
+            }
+            sortPrice(listCard);
+            return listCard;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("disable account failed");
+        } finally {
+            st.close();
+        }
+        return null;
+    }
+    
+    public List<CardDetail> getCardDetailByProviderID(int idx, String providerid) {
+        String sql = "SELECT * FROM CardDetail WHERE ProviderID = ? and (isDeleted !=1 or isDeleted is null)"
+                + "ORDER BY ID OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+        List<CardDetail> listCard = new ArrayList<>();       
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, providerid);
+            st.setInt(2,(idx - 1) * 6);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 CardDetail card = new CardDetail();
@@ -101,8 +149,6 @@ public class cardDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("disable account failed");
-        } finally {
-            st.close();
         }
         return null;
     }
@@ -220,16 +266,14 @@ public class cardDAO extends DBContext {
         return list;
     }
 
-    public List<ProviderDetail> getProviderByName(int idx, String name) {
+    public List<ProviderDetail> getProviderByName(String name) {
         List<ProviderDetail> listByName = new ArrayList<>();
         String sql = "select * from ProviderDetail where providerName like ? "
-                + "and (isDeleted !=1 or isDeleted is null) "
-                + "ORDER BY ID OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY";
+                + "and (isDeleted !=1 or isDeleted is null) ";
         try {
             String names = "%" + name + "%";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, names);
-            st.setInt(2, (idx - 1) * 6);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 ProviderDetail card = new ProviderDetail(rs.getInt("ID"),
@@ -255,6 +299,18 @@ public class cardDAO extends DBContext {
 
     public void deleteProvider(String id) {
         String sql = "update ProviderDetail\n"
+                + "set isDeleted = 1, deletedAt = getDate()  where id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+
+        }
+    }
+    
+    public void deletePrice(String id) {
+        String sql = "update CardDetail\n"
                 + "set isDeleted = 1, deletedAt = getDate()  where id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -347,7 +403,7 @@ public class cardDAO extends DBContext {
 
     public boolean checkExistedPrice(String id, double price) {
         String sql = "  select count(id) from CardDetail\n"
-                + "  where ProviderID = ? and price = ?";
+                + "  where ProviderID = ? and price = ? and (isDeleted !=1 or isDeleted is null)";
         int count = 0;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -467,13 +523,98 @@ public class cardDAO extends DBContext {
 
         }
     }
+    
+    public void updateQuantityAfterSold(String id, int quantity) {
+        String sql = "  update CardDetail\n"
+                + "  set quantity = ?\n"
+                + "  where id = ?";
+        CardDetail c = getPrice(id);
+        int newQuantity = c.getQuantity() - quantity ;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, newQuantity);
+            st.setString(2, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+
+        }
+    }
+    
+    public String getProviderNameByCardDetailId(int cardDetailId) throws SQLException{
+        String sql = "SELECT providerName FROM [ProviderDetail] WHERE ID = (SELECT TOP 1 providerID FROM [CardDetail] WHERE ID = ?)";
+        PreparedStatement st = connection.prepareStatement(sql);
+        try {
+            st.setInt(1, cardDetailId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("can't get providerName");
+        } finally {
+            st.close();
+        }
+        return "";
+    }
+    
+    public int countPriceByProvider (String providerid){
+        int count = 0;
+        String sql = "select count(id) from CardDetail where providerid = ? and (isDeleted !=1 or isDeleted is null)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, providerid);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+
+        }
+        return count;
+        
+    }
+    
+        
+    public CardDetail getCardDetailById (String id){
+        CardDetail c = new CardDetail();
+        String sql = "select * from CardDetail where ID = ? and (isDeleted !=1 or isDeleted is null)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                c = new CardDetail(rs.getInt("ID"),
+                        rs.getInt("providerID"),
+                        rs.getDouble("price"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt"), 
+                        rs.getInt("createdBy"), 
+                        rs.getBoolean("isDeleted"), 
+                        rs.getInt("deletedBy"), 
+                        rs.getString("deletedAt"), 
+                        rs.getInt("quantity"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return c;
+    }
+
+
+
+    
+  
+
+
 
     public static void main(String[] args) throws SQLException {
         cardDAO _cardDAO = new cardDAO();
-        List<CardHomepageVM> list = _cardDAO.getAllProduct(1, "phonecard");
-        for (CardHomepageVM phoneCardDetail : list) {
-            System.out.println(phoneCardDetail.toString());
-        }
-
+//        List<CardHomepageVM> list = _cardDAO.getAllProduct(1, "phonecard");
+//        for (CardHomepageVM phoneCardDetail : list) {
+//            System.out.println(phoneCardDetail.toString());
+//        }
+         
+        System.out.println(_cardDAO.getProviderNameByCardDetailId(15));
     }
 }

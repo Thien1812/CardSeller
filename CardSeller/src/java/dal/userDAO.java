@@ -87,6 +87,53 @@ public class userDAO extends DBContext {
         }
         return acc;
     }
+    
+    public User GetUserInfoById(int userId) throws SQLException {
+        User acc = null;
+        String sql = "select * from [User]\n"
+                + "where id = ?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        try {
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                acc = new User(rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phoneNumber"),
+                        rs.getDate("createdAt"),
+                        rs.getDate("updatedAt"),
+                        rs.getInt("createdBy"),
+                        rs.getBoolean("isDeleted"),
+                        rs.getInt("deletedBy"),
+                        rs.getDate("deletedAt"),
+                        rs.getString("role"));
+            }
+        } catch (SQLException e) {
+
+        } finally {
+            st.close();
+        }
+        return acc;
+    }
+
+    public boolean CheckEmail(String email) throws SQLException {
+        String sql = "select * from [User] where email=?";
+        PreparedStatement st = connection.prepareStatement(sql);
+        try {
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            st.close();
+        }
+        return false;
+    }
 
     public int CheckUser(String username, String email) throws SQLException {
         String sql = "select * from [User] where email=?";
@@ -217,11 +264,18 @@ public class userDAO extends DBContext {
         return false;
     }
 
-    public int getTotalAccount() {
+    public int getTotalAccount(String search) {
         String sql = "select count(*) from [User]";
+        if (search != null) {
+            sql += " where username like ? or email like ?";
+        }
         int count = 0;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            if (search != null) {
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 count = rs.getInt(1);
@@ -233,12 +287,23 @@ public class userDAO extends DBContext {
 
     }
 
-    public List<User> getAccount(int idx) {
+    public List<User> getAccount(int idx, String search) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM [User] ORDER BY ID OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
+        String sql = "SELECT * FROM [User]";
+        if (search != null) {
+            sql += " where username like ? or email like ?";
+        }
+        sql += " ORDER BY ID OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, (idx - 1) * 10);
+
+            if (search != null) {
+                st.setString(1, "%" + search + "%");
+                st.setString(2, "%" + search + "%");
+                  st.setInt(3, (idx - 1) * 10);
+            } else {
+                st.setInt(1, (idx - 1) * 10);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 User acc = new User(rs.getInt("ID"),

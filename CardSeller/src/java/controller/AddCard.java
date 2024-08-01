@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.nio.file.Files;
+import model.CardDetail;
 import model.ProviderDetail;
 
 /**
@@ -66,7 +67,9 @@ public class AddCard extends HttpServlet {
         String priceid = request.getParameter("priceid");
         int id = Integer.parseInt(providerid);
         ProviderDetail provider = d.getProviderDetailById(id);
+        CardDetail card = d.getPrice(priceid);
         request.setAttribute("provider", provider);
+        request.setAttribute("card",card);
         request.getRequestDispatcher("addcard.jsp").forward(request, response);
     }
 
@@ -90,11 +93,15 @@ public class AddCard extends HttpServlet {
         String pin_r = request.getParameter("pin");
         int id = Integer.parseInt(providerid);
         ProviderDetail provider = d.getProviderDetailById(id);
+        CardDetail card = d.getPrice(priceid);
         try {
             int seri = Integer.parseInt(seri_r);
             int pin = Integer.parseInt(pin_r);
             int countSeri = d.countSeri(seri);
             int countPin = d.countPin(pin);
+            if(seri<0 || pin<0){
+                throw new NumberFormatException();
+            }
             if (countSeri > 0) {
                 mess = "Serial number existed!";
                 throw new Exception();
@@ -114,7 +121,7 @@ public class AddCard extends HttpServlet {
                 
         request.setAttribute("seri", seri_r);
         request.setAttribute("pin", pin_r);
-        request.setAttribute("priceid", priceid);
+        request.setAttribute("card", card);
         request.setAttribute("mess", mess);
         request.setAttribute("provider", provider);
         request.getRequestDispatcher("addcard.jsp").forward(request, response);

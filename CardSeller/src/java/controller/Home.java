@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -19,6 +20,7 @@ import model.viewModel.CardHomepageVM;
  * @author BINH
  */
 public class Home extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,11 +32,11 @@ public class Home extends HttpServlet {
             if (indexS == null) {
                 indexS = "1";
             }
-            if(type == null) {
+            if (type == null) {
                 type = "phonecard";
             }
             int index = Integer.parseInt(indexS);
-            List<CardHomepageVM> listCard = _cardDAO.getAllProduct(index,type);
+            List<CardHomepageVM> listCard = _cardDAO.getAllProduct(index, type);
             int total = _cardDAO.getAllProviderTotal();
             int lastPage = total / 9;
             if (total % 9 != 0) {
@@ -44,13 +46,20 @@ public class Home extends HttpServlet {
             request.setAttribute("LIST_CARD", listCard);
             request.setAttribute("endP", lastPage);
             request.setAttribute("selectedPage", index);
+            
+            HttpSession session = request.getSession();
+            if(session.getAttribute("QUANTITY_ERROR") != null) {
+                String error = "Số lượng card không đủ!";
+                request.setAttribute("ERROR", error);
+                session.removeAttribute("QUANTITY_ERROR");
+            }
+            
             request.getRequestDispatcher("home.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -66,5 +75,12 @@ public class Home extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+public static void main(String[] args) throws SQLException {
+    cardDAO _cardDAO = new cardDAO();
+        List<CardHomepageVM> listCard = _cardDAO.getAllProduct(1, "phonecard");
+        System.out.println(listCard);
+    }
 }
+
+
+

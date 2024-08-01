@@ -4,6 +4,7 @@
  */
 package ultis;
 
+import dal.cardDAO;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
@@ -11,7 +12,10 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
+import model.Card;
 
 /**
  *
@@ -68,5 +72,5 @@ public class MailService {
             throw new RuntimeException(e);
         }
     }
-  
+
 }

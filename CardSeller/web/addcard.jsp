@@ -28,7 +28,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light navbar-laravel btn btn-light">
             <div class="container">
-                <a class="navbar-brand" href="#">Add new card</a>
+                <a class="navbar-brand" href="#">Thêm thẻ mới</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="manageproduct">Manage Product</a>
+                            <a class="nav-link" href="managecardprice?providerid=${provider.id}">Quay lại</a>
                         </li>
                     </ul>
 
@@ -54,33 +54,29 @@
                                 <form action="addcard" method="post">
                                     <input type="hidden" name ="providerid" value="${provider.id}">
                                     <div class="form-group row">
-                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Provider</label>
+                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Bên cung cấp</label>
                                         <div class="col-md-6">
                                             <input type="text" id="email_address" class="form-control" name="provider" value="${provider.providerName}" readonly/>
                                         </div>
 
                                     </div>
                                     <div class="form-group row">
-                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Category</label>
+                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Loại thẻ</label>
                                         <div class="col-md-6">
                                             <input type="text" id="email_address" class="form-control" name="category" value="${provider.category}" readonly />
                                         </div>
 
                                     </div>
                                     <div class="form-group row">
-                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Price</label>
+                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Giá</label>
                                         <div class="col-md-6">
-
-                                            <select type="text" id="password" class="form-control" name="priceid">
-                                                <c:forEach items = "${provider.pricelist}" var = "p">
-                                                    <option value="${p.id}" ${p.id == priceid ? 'selected' : ''}>${p.price}</option>
-                                                </c:forEach>
-                                            </select>
+                                            <input type="hidden" name = "priceid" value ="${card.id}">
+                                            <input type="text" id="email_address" class="form-control" name="price" value="${card.price}" readonly />
                                         </div>
 
                                     </div>
                                     <div class="form-group row">
-                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Serial Number</label>
+                                        <label for="email_address" class="col-md-4 col-form-label text-md-right">Mã số Seri</label>
                                         <div class="col-md-6">
                                             <input type="text" id="email_address" class="form-control" name="seri" value="${seri}" required />
                                         </div>
@@ -103,7 +99,7 @@
 
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-primary">
-                                            Add
+                                            Thêm
                                         </button>
 
                                     </div>

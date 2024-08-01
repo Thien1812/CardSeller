@@ -142,7 +142,7 @@
         .card-selection div.selected {
             /*background-color: #007BFF;*/
             color: red;
-            border-color: #red;
+            border-color: blue;
         }
 
         .card-values {
@@ -178,88 +178,47 @@
             color: #666666;
             margin-bottom: 15px;
         }
+        
+         .card-selection div {
+            display: flex;        /* Use flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center;  /* Center vertically */
+            margin-bottom: 20px;  /* Optional: space between cards */
+        }
+
+        .card-selection img {
+            max-width: 100%;      /* Makes image responsive */
+            height: auto;         /* Maintain aspect ratio */
+            padding: 5px;         /* Optional: space inside div */
+            border-radius: 8px;   /* Optional: rounded corners for aesthetics */
+        }
+
+        .card-value {
+            text-align: center;   /* Center text */
+            margin-top: 10px;     /* Space between text items */
+        }
+
     </style>
 
 </style>
 <body>
     <jsp:include page="header.jsp"/>
-    <section class="categories">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 p-0">
-                    <div class="categories__item categories__large__item set-bg"
-                         data-setbg="${pageContext.request.contextPath}/img/card/viettel.jpg">
-                        <div class="categories__text">
-                            <h1>Viettel</h1>
-                            <p>
-                                Hãy nói theo cách của bạn
-                            </p>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="${pageContext.request.contextPath}/img/card/mobilephone_1.jpg">
-<!--                                <div class="categories__text">
-                                    <h4>Men’s fashion</h4>
-                                    <p>358 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>-->
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="${pageContext.request.contextPath}/img/card/fpt.jpg">
-<!--                                <div class="categories__text">
-                                    <h4>Kid’s fashion</h4>
-                                    <p>273 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>-->
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="${pageContext.request.contextPath}/img/card/moblie.jpg">
-<!--                                <div class="categories__text">
-                                    <h4>Cosmetics</h4>
-                                    <p>159 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>-->
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="${pageContext.request.contextPath}/img/card/viettel.jpg">
-<!--                                <div class="categories__text">
-                                    <h4>Accessories</h4>
-                                    <p>792 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
     <section class="product spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="section-title">
-                        <h4>Card List</h4>
+                        <h4>Danh sách thẻ</h4>
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-8">
                     <ul class="filter__controls">
                         <!--<li class="active" data-filter="*">All</li>-->
                         <li class="${type == 'phonecard' ? 'active' : ''}" >
-                            <a data-filter=".quan" href="home?type=phonecard">Phone Card</a>
+                            <a data-filter=".quan" href="home?type=phonecard">Thẻ Điện thoại</a>
                         </li>
                         <li class="${type == 'gamecard' ? 'active' : ''}">
-                            <a data-filter=".ao"  href="home?type=gamecard">Game Card</a>
+                            <a data-filter=".ao"  href="home?type=gamecard">Thẻ Game</a>
                         </li>
                     </ul>
                 </div>
@@ -293,7 +252,15 @@
                 -->
                 <form class="container" action="cart" method="POST">
                     <input type="hidden" name="action" value="add"/>
-                    <h1>Card Top-Up</h1>
+                    <style>
+                        .container {
+                            margin-top: 0;
+                            padding-top: 0;
+                        }
+                    </style>
+                    <div class="container">
+                        <h1 class="w3-center card-top-up"style="font-size: 55px">Nạp thẻ</h1>
+                    </div>
                     <div>
                         Bước 1: Lựa chọn loại thẻ mà bạn mong muốn
                     </div>
@@ -308,78 +275,91 @@
                     </div>
                     <div>
                         Bước 3: Chọn số lượng thẻ
-                        <input min="1" max="10" class="input-card" type="number" name="card-quantity" placeholder="Số lượng thẻ"/>
+                        <input min="1" max="10" class="input-card" type="number" required name="card-quantity" placeholder="Số lượng thẻ" />
                     </div>
-                    <div>
+<!--                    <div>
                         Bước 4: Nhập số điện thoại của bạn
                         <input class="input-card" type="text" name="phone" placeholder="Nhập số điện thoại của bạn để nhận mã thẻ"/>
-                    </div>
+                    </div>-->
                     <input type="hidden" name="cardDetailId" id="cardDetailId"/>
-                    <button  class="site-btn" type="submit">Add to cart</button>
+                    <button  class="site-btn" type="submit">Thêm vào giỏ hàng</button>
                 </form>
-                <div style="color: green">${MESSAGE}</div>
+                <div id="message" style="color: green">${MESSAGE}</div>      
+                <div id="error"   style="color: green">${ERROR}</div>
             </div>
         </div>
     </section>
-
-   
-
     <jsp:include page="footer.jsp"/>
 </body>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        var msg = document.getElementById('message');
+    var error = document.getElementById('error');
+   if(msg.innerHTML.length > 0) {
+       window.alert(msg.innerHTML);
+   }
+     if(error.innerHTML.length > 0) {
+       window.alert(error.innerHTML);
+   }
+   
     const cardTypes = {
     <c:forEach items="${LIST_CARD}" var="card">
-    '${card.providerName}': [<c:forEach items="${card.cardPrice}" var="p">{
-        price: ${p.price},
-        id : ${p.id}
-                    },</c:forEach>],
+    '${card.providerName}': [{ imageUrl: '${card.image}', cardPrices: [<c:forEach items="${card.cardPrice}" var="p">{
+            price: ${p.price},
+            discount: ${p.discount},
+            id : ${p.id}
+    },</c:forEach>]}],
     </c:forEach>
     };
-            const cardSelectionDiv = document.querySelector('.card-selection');
-            const cardValuesDiv = document.querySelector('.card-values');
-            Object.keys(cardTypes).forEach(type => {
+    const cardSelectionDiv = document.querySelector('.card-selection');
+    const cardValuesDiv = document.querySelector('.card-values');
+    Object.keys(cardTypes).forEach(type => {
     const typeDiv = document.createElement('div');
-            typeDiv.textContent = type;
-            typeDiv.addEventListener('click', () => {
-            selectCardType(typeDiv);
-                    displayCardValues(cardTypes[type]);
-            });
-            cardSelectionDiv.appendChild(typeDiv);
+    const img = document.createElement('img');
+    img.src = cardTypes[type][0].imageUrl; // Sử dụng URL hình ảnh từ dữ liệu
+    img.alt = type; // Dùng tên loại thẻ làm alt nếu ảnh không tải được
+    typeDiv.appendChild(img);
+    typeDiv.addEventListener('click', () => {
+    selectCardType(typeDiv);
+    displayCardValues(cardTypes[type][0].cardPrices);
     });
-            function displayCardValues(values) {
-            cardValuesDiv.innerHTML = ''; // Clear previous values
-                    values.forEach(value => {
-                    const valueDiv = document.createElement('div');
-                            valueDiv.className = 'card-value';
-                            valueDiv.textContent = value.price.toLocaleString();
-                            valueDiv.addEventListener('click', function () {
-                                const cardDetailId = document.querySelector('#cardDetailId');
-                                cardDetailId.value = value.id;
-                            selectValue(valueDiv);
-                            });
-                            cardValuesDiv.appendChild(valueDiv);
-                    });
-            }
+    cardSelectionDiv.appendChild(typeDiv);
+    });
+    function displayCardValues(values) {
+    cardValuesDiv.innerHTML = ''; // Clear previous values
+    values.forEach(value => {
+    const valueDiv = document.createElement('div');
+    valueDiv.className = 'card-value';
+    valueDiv.textContent = value.price.toLocaleString() + (value.discount==0?"":" discount "+value.discount+"%");//
+    valueDiv.addEventListener('click', function () {
+    const cardDetailId = document.querySelector('#cardDetailId');
+    cardDetailId.value = value.id;
+    selectValue(valueDiv);
+    });
+    cardValuesDiv.appendChild(valueDiv);
+    });
+    }
 
     function selectCardType(selectedDiv) {
     const allTypes = cardSelectionDiv.querySelectorAll('div');
-            allTypes.forEach(div => {
-            div.classList.remove('selected');
-            });
-            selectedDiv.classList.add('selected');
+    allTypes.forEach(div => {
+    div.classList.remove('selected');
+    });
+    selectedDiv.classList.add('selected');
     }
 
     function selectValue(selectedDiv) {
     const allValues = cardValuesDiv.querySelectorAll('.card-value');
-            allValues.forEach(div => {
-            div.classList.remove('selected');
-            });
-            selectedDiv.classList.add('selected');
+    allValues.forEach(div => {
+    div.classList.remove('selected');
+    });
+    selectedDiv.classList.add('selected');
     }
     });
+
 </script>
 </html>
+
+
 
 

@@ -27,6 +27,11 @@ public class ProviderDetail {
     public ProviderDetail() {
     }
 
+    public ProviderDetail(int Id, String providerName) {
+        this.Id = Id;
+        this.providerName = providerName;
+    }
+
     public ProviderDetail(int Id, String providerName, String image, String category, String createAt, String updatedAt, int createdBy, boolean isDeleted, int deletedBy, String deletedAt, List<CardDetail> pricelist) {
         this.Id = Id;
         this.providerName = providerName;

@@ -21,6 +21,8 @@ public class CardDetail {
     private int deletedBy;
     private String deletedAt;
     private int quantity;
+    private int discount;
+    
     public CardDetail() {
     }
 
@@ -45,9 +47,13 @@ public class CardDetail {
         this.quantity = quantity;
     }
 
-    
+    public int getDiscount() {
+        return discount;
+    }
 
-    
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
 
     public int getId() {
         return Id;
@@ -123,7 +129,10 @@ public class CardDetail {
 
     @Override
     public String toString() {
-        return "CardDetail{" + "Id=" + Id + ", providerId=" + providerId + ", price=" + price + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", createdBy=" + createdBy + ", isDeleted=" + isDeleted + ", deletedBy=" + deletedBy + ", deletedAt=" + deletedAt + '}';
+        return "CardDetail{" + "Id=" + Id + ", providerId=" + providerId + 
+                ", price=" + price + ", createdAt=" + createdAt + ", updatedAt=" + 
+                updatedAt + ", createdBy=" + createdBy + ", isDeleted=" + isDeleted + ","
+                + " deletedBy=" + deletedBy + ", deletedAt=" + deletedAt +", "+ discount+ '}';
     }
 
     

@@ -77,7 +77,7 @@ public class transactionDAO extends DBContext {
     }
 
     public int getTotalUserTransaction(int uwid) {
-        String sql = "select count(*) from TransactionHisotry where UserWalletID=?  ";
+        String sql = "select count(*) from TransactionHistory where UserWalletID=?  ";
         int count = 0;
         try {
             PreparedStatement st = connection.prepareStatement(sql);

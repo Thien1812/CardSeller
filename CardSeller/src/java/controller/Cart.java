@@ -4,6 +4,8 @@
  */
 package controller;
 
+import com.google.gson.JsonObject;
+import dal.cardDAO;
 import dal.cartDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import model.CardDetail;
 import model.CartItem;
 import model.User;
 import model.viewModel.CartDetailVM;
@@ -76,7 +81,7 @@ public class Cart extends HttpServlet {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("acc");
             cartDAO cartDAO = new cartDAO();
-            List<CartDetailVM> listUserCart = cartDAO.getCartByUserId(user.getID());
+            List<CartDetailVM> listUserCart = cartDAO.getCartHaveDisByUserId(user.getID());
             if (listUserCart != null) {
                 request.setAttribute("CARTS", listUserCart);
             }
@@ -98,65 +103,105 @@ public class Cart extends HttpServlet {
             User user = (User) session.getAttribute("acc");
             String cardquantity = request.getParameter("card-quantity");
             String cardDetailId = request.getParameter("cardDetailId");
-            cartDAO cartDAO = new cartDAO();
-            CartItem existingCartItem = cartDAO.getCartItemByUserIdAndCardDetailId(user.getID(), Integer.parseInt(cardDetailId));
-            if (existingCartItem != null) {
-                // Update the quantity of the existing cart item        
-                existingCartItem.setQuantity(existingCartItem.getQuantity() + Integer.parseInt(cardquantity));
-                boolean result = cartDAO.updateCart(existingCartItem);
-                if (result) {
-                    request.setAttribute("MESSAGE", "UPDATED CART SUCCESSFULLY");
-                } else {
-                    System.out.println("Failed to update cart");
-                }
+            cardDAO _cardDAO = new cardDAO();
+            CardDetail cd = _cardDAO.getCardDetailById(cardDetailId);
+
+            int cardQuantity = Integer.parseInt(cardquantity);
+            if (cardQuantity > cd.getQuantity()) {
+                session.setAttribute("QUANTITY_ERROR", true);
             } else {
-        // Add a new cart item   
-                CartItem cartItem = new CartItem();
-                cartItem.setCartDetailId(Integer.parseInt(cardDetailId));
-                cartItem.setQuantity(Integer.parseInt(cardquantity));
-                cartItem.setUserId(user.getID());
-                boolean result = cartDAO.addToCart(cartItem);
-                if (result) {
-                    request.setAttribute("MESSAGE", "ADD TO CART SUCCESSFULLY");
+                cartDAO cartDAO = new cartDAO();
+                CartItem existingCartItem = cartDAO.getCartItemByUserIdAndCardDetailId(user.getID(), Integer.parseInt(cardDetailId));
+                if (existingCartItem != null) {
+                    // Update the quantity of the existing cart item        
+                    existingCartItem.setQuantity(existingCartItem.getQuantity() + Integer.parseInt(cardquantity));
+                    boolean result = cartDAO.updateCart(existingCartItem);
+                    if (result) {
+                        request.setAttribute("MESSAGE", "UPDATED CART SUCCESSFULLY");
+                    } else {
+                        System.out.println("Failed to update cart");
+                    }
                 } else {
-                    System.out.println("Failed add to cart");
+                    // Add a new cart item   
+                    CartItem cartItem = new CartItem();
+                    cartItem.setCartDetailId(Integer.parseInt(cardDetailId));
+                    cartItem.setQuantity(Integer.parseInt(cardquantity));
+                    cartItem.setUserId(user.getID());
+                    boolean result = cartDAO.addToCart(cartItem);
+                    if (result) {
+                        request.setAttribute("MESSAGE", "ADD TO CART SUCCESSFULLY");
+                    } else {
+                        System.out.println("Failed add to cart");
+                    }
                 }
             }
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("home");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void updateCart(HttpServletRequest request, HttpServletResponse response) {
+    private void updateCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("acc");
+        String cardquantity = request.getParameter("cardquantity");
+        String cartItemId = request.getParameter("cartItemId");
+
+        int cardQuantity = Integer.parseInt(cardquantity);
+        int cardId = Integer.parseInt(cartItemId);
+        cartDAO cartDAO = new cartDAO();
+        JsonObject jsonResponse = new JsonObject();
+
+        CartItem ci = cartDAO.getCartItemById(cardId);
+        cardDAO _cardDAO = new cardDAO();
+        CardDetail cd = _cardDAO.getCardDetailById(ci.getCartDetailId() + "");
+
         try {
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("acc");
-            String cardquantity = request.getParameter("card-quantity");
-            String cartItemId = request.getParameter("cartItemId");
-            System.out.println("CardQuantity " + cardquantity);
-            int cardQuantity = Integer.parseInt(cardquantity);
-            int cardId = Integer.parseInt(cartItemId);
-            cartDAO cartDAO = new cartDAO();
+            int cardDetailQuantity = Integer.parseInt(cardquantity);
+            float totalPrice = 0;
             boolean result = false;
-            if (cardQuantity == 0) {
-                result = cartDAO.removeFromCart(cardId);
+            if (cardDetailQuantity > cd.getQuantity()) {
+                result = false;
             } else {
-                CartItem cartItem = new CartItem();
-                cartItem.setId(cardId);
-                cartItem.setQuantity(cardQuantity);
-                cartItem.setUserId(user.getID());
-                result = cartDAO.updateCart(cartItem);
+                if (cardQuantity == 0) {
+                    result = cartDAO.removeFromCart(cardId);
+                } else {
+                    CartItem cartItem = new CartItem();
+                    cartItem.setId(cardId);
+                    cartItem.setQuantity(cardQuantity);
+                    cartItem.setUserId(user.getID());
+                    result = cartDAO.updateCart(cartItem);
+                }
+                List<CartDetailVM> listUserCart = cartDAO.getCartHaveDisByUserId(user.getID());
+                if (listUserCart != null) {
+                    request.setAttribute("CARTS", listUserCart);
+                }
+                for (CartDetailVM cartDetailVM : listUserCart) {
+                    totalPrice += cartDetailVM.getTotalPrice();
+                    if (cardId == cartDetailVM.getId()) {
+                        jsonResponse.addProperty("totalPriceCard", cartDetailVM.getTotalPrice());
+                    }
+                }
             }
+
             if (result) {
-                request.setAttribute("MESSAGE", "UPDATE CART SUCCESSFULLY");
+                jsonResponse.addProperty("message", "Cart updated successfully");
+                jsonResponse.addProperty("totalPrice", totalPrice);
+                jsonResponse.addProperty("status", "success");
             } else {
-                request.setAttribute("MESSAGE", "FAILED TO UPDATE CART");
+                jsonResponse.addProperty("message", "Số lượng sản phẩm không đủ");
+                jsonResponse.addProperty("status", "error");
             }
-            response.sendRedirect("cart?action=view");
         } catch (Exception e) {
-            e.printStackTrace();
+            jsonResponse.addProperty("message", "Server error");
+            jsonResponse.addProperty("status", "error");
         }
+        out.print(jsonResponse.toString());
+        out.flush();
     }
 
     private void removeFromCart(HttpServletRequest request, HttpServletResponse response) {
@@ -177,6 +222,12 @@ public class Cart extends HttpServlet {
         }
     }
 
+    public static void main(String[] args) throws SQLException {
+        cartDAO cartDAO = new cartDAO();
+        List<CartDetailVM> listUserCart = cartDAO.getCartHaveDisByUserId(1);
+        System.out.println(listUserCart);
+    }
 }
+
 
 

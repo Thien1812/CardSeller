@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import ultis.InputValidation;
 import ultis.MailService;
 import ultis.OtpService;
 
@@ -80,10 +81,26 @@ public class PersonalInfo extends HttpServlet {
     private void sendMail(HttpServletRequest request, HttpServletResponse response) {
         try {
             HttpSession session = request.getSession();
+            userDAO ud=new userDAO();
+            InputValidation iV=new InputValidation();
+            User acc = (User) session.getAttribute("acc");
             //get email
             String email = request.getParameter("email");
-            if (email == null) {
-            } else {
+            if (email == null ? acc.getEmail() == null : email.equals(acc.getEmail())) {
+                 //Fail
+                     PrintWriter out = response.getWriter();
+                     //send error string to ajax function success(error)
+                    out.println("Hãy chọn email mới khác email hiện tại!"); 
+            }
+            else if(ud.CheckEmail(email)){
+             PrintWriter out = response.getWriter();
+                     //send error string to ajax function success(error)
+                    out.println("Email bị trùng với 1 tài khoản khác!"); }
+            else if(iV.GetEmail(email)!=null) {
+            PrintWriter out = response.getWriter();
+                     //send error string to ajax function success(error)
+                    out.println("Email ko hợp lệ!"); }
+            else{
                 //get OTP 
                 OtpService optService = new OtpService();
                 String otp = OtpService.genarateOtp();

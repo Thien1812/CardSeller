@@ -365,7 +365,15 @@
                     info: 'email',
                     email: email
                 },
-                success: function (data) {
+                success: function (error) {
+                    if (error) {
+                        var p = document.getElementById("error");
+                        p.innerHTML = error;
+                        //error empty
+                    } else {
+                        //reload the profile
+                        window.location.reload();
+                    }
                 },
                 error: function (xhr) {
                     //Do Something to handle error
@@ -382,7 +390,6 @@
                     otp: otp
                 },
                 success: function (error) {
-                    console.log(error);
                     //error was non-empty string
                     if (error) {
                         var p = document.getElementById("error");

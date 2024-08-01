@@ -13,7 +13,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Quản lý tài khoản</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link href="css/manage.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
         <style>
             * {
                 margin:0;
@@ -23,7 +26,7 @@
 
             }
 
-            body {
+            .table_flex {
                 background-color:#DEDEE8;
                 background-size: 100%;
                 min-height: 100vh;
@@ -35,7 +38,7 @@
 
             main.res_table {
                 width: 82vw;
-                height: 90vh;
+                height: 95vh;
                 background-color: #fff5;
                 backdrop-filter: blur(7px);
                 box-shadow: 0.4rem .8rem #0005;
@@ -45,7 +48,6 @@
 
             table {
                 width: 100%;
-
             }
 
             .t_header {
@@ -88,7 +90,7 @@
             }
             .t_body {
                 width: 95%;
-                height: calc(89%-.1.6rem);
+                height: 74vh;
                 background-color: #fffb;
                 margin: .8rem auto;
                 border-radius: .4rem;
@@ -146,16 +148,6 @@
                 font:0/0 sans-serif;
                 transition:.2s ease-in-out;
             }
-            .S_button {
-                padding:.4rem 0;
-                border-radius: 0.5rem;
-                text-align: center;
-                background:#f6e05e;
-                border-color:#f6e05e;
-                border-width: 1px;
-                border-style: solid;
-
-            }
             @media(max-width:1000px){
                 td:not(:first-of-type){
                     min-width: 12.1rem;
@@ -167,104 +159,138 @@
                 text-align: center;
             }
             .pagination a{
-                color: black;
+                list-style: none;
+                background-color:#333;
+                padding: 5px 10px;
+                border-radius: 50%;
+                margin: 0 2px;
+                color: #fff;
                 text-decoration: none;
-                padding: 8px 15px;
-                display: inline-block;
             }
             .pagination a.active{
-                background-color: #007bff;
+                list-style: none;
+                padding: 5px 10px;
+                border-radius: 50%;
+                margin: 0 2px;
+                color: #fff;
+                text-decoration: none;
+                background-color: #ff0000;
                 font-weight: bold;
-                border-radius: 5px;
             }
             .pagination a:hover:not(.active){
-                background-color: hsl(0, 0%, 77%);
-                border-radius: 5px;
-            </style>
+                list-style: none;
+                padding: 5px 10px;
+                border-radius: 50%;
+                margin: 0 2px;
+                color: #fff;
+                text-decoration: none;
+                background-color: #ff0000;
+                font-weight: bold;
+            }
+        </style>
 
-        </head>
-        <%
-      User acc = (User) request.getSession().getAttribute("acc");
-      try{
-      if(!acc.role.equals("admin")){
-      response.sendRedirect("login.jsp");
-      }
-  }catch(Exception e){
-      response.sendRedirect("login.jsp");
+    </head>
+    <%
+  User acc = (User) request.getSession().getAttribute("acc");
+  try{
+  if(!acc.role.equals("admin")){
+  response.sendRedirect("login.jsp");
   }
-        %>
-        <body>
-            <main class="res_table">              
-                <h3><a class="nav-link active" aria-current="page" href="home">Trang chủ</a></h3>
-                <section class="t_header">
-                    <h1>Danh sách tài khoản</h1>
-                    <div class="search-group">
-                        <input type="search" placeholder="Search data...">
-                        <img src="image/search.png" alt=""/>
-                    </div>
-                </section>
-                <section class="t_body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Mã số</th>
-                                <th>Tên người dùng</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Ngày tạo</th>
-                                <th>Ngày cập nhật</th>
-                                <th>Trạng thái</th>
-                                <th>Vai trò</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${requestScope.list1}" var="c">
-                                <c:set var="id" value="${c.ID}"/>
-                                <c:if test="${c.role!='admin'}">
-                                    <tr>
-                                        <td>${id}</td>
-                                        <td>${c.username}</td>
-                                        <td>${c.email}</td>
-                                        <td>${c.phoneNumber}</td>
-                                        <td>${c.createdAt}</td>
-                                        <td>${c.updatedAt}</td>
-                                        <td>
-                                            <c:if test="${c.isDeleted==true}">Ngưng kích hoạt<br>vào ${c.deletedAt}</c:if>
-                                            <c:if test="${c.isDeleted==false}">Đang kích hoạt</c:if>                                              
-                                            </td>
-                                            <td>${c.role}</td>
-                                        <td><a href="manageaccount?aid=${id}&st=${c.isDeleted}" class="S_button">Đổi trạng thái</a>
-                                        </td>
-                                    </tr>
-                                </c:if>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </section>
-                <div class="pagination">
-                    <c:forEach begin="1" end="${endP}" var="i">
-                        <a href="manageaccount?idx=${i}" class="page-item">${i}</a>
-                    </c:forEach>
+}catch(Exception e){
+  response.sendRedirect("login.jsp");
+}
+    %>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand">Trang Điều Hành</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="home">Trang Chủ</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="manageproduct">Quản Lý Sản Phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="manageaccount">Quản lý Tài khoản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="manageDiscount">Quản lý Giảm Giá</a>
+                        </li>
+
+                    </ul>
+                    <ul class="navbar-nav me-20 mb-2 mb-lg-0">
+                        <c:if test="${sessionScope.acc!=null}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="profile.jsp">${sessionScope.acc.username}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="logout">Đăng xuất</a>
+                            </li>
+                        </c:if>
+                    </ul>
                 </div>
-            </main>
-        </body>
-    </html>
-    <script>
-        const search = document.querySelector('.search-group input');
-        tables_rows = document.querySelectorAll('tbody tr ');
-
-        search.addEventListener("input", searchTable);
-        function searchTable() {
-            tables_rows.forEach((row, i) => {
-                let table_data = row.textContent,
-                        search_data = search.value;
-
-                row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-                row.style.setProperty('--delay', i / 25 + 's');
-            })
-            document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-                visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
-            });
-        }
-    </script>
+            </div>
+        </nav>
+    </header>
+    <section class="table_flex">
+        <main class="res_table">              
+            <section class="t_header">
+                <h1>Danh sách tài khoản</h1>
+                <form action="manageaccount" class="search-group" role="search" style="margin-left: ">
+                    <input name="search" type="search" placeholder="Tìm kiếm..." value="${search}">
+                    <button class="btn btn-outline-success btn-sm" type="submit"><img src="image/search.png" alt=""/></button>                   
+                </form>
+            </section>
+            <section class="t_body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã số</th>
+                            <th>Tên người dùng</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
+                            <th>Trạng thái</th>
+                            <th>Vai trò</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${requestScope.list1}" var="c">
+                            <c:set var="id" value="${c.ID}"/>
+                            <c:if test="${c.role!='admin'}">
+                                <tr>
+                                    <td>${id}</td>
+                                    <td>${c.username}</td>
+                                    <td>${c.email}</td>
+                                    <td>${c.phoneNumber}</td>
+                                    <td>${c.createdAt}</td>
+                                    <td>${c.updatedAt}</td>
+                                    <td>
+                                        <c:if test="${c.isDeleted==true}">Ngưng kích hoạt<br>vào ${c.deletedAt}</c:if>
+                                        <c:if test="${c.isDeleted==false}">Đang kích hoạt</c:if>                                              
+                                        </td>
+                                        <td>${c.role}</td>
+                                    <td><a href="manageaccount?aid=${id}&st=${c.isDeleted}" class="btn btn-outline-danger btn-sm ">Đổi trạng thái</a>
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </section>
+            <div class="pagination">
+                <c:forEach begin="1" end="${endP}" var="i">
+                    <a href="manageaccount?idx=${i}&search=${search}" class="page-item">${i}</a>
+                </c:forEach>
+            </div>
+        </main>
+    </section>
+</html>

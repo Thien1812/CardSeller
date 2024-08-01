@@ -64,6 +64,7 @@ public class ManageAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String search = request.getParameter("search");
         String idx_r = request.getParameter("idx");
         String aid = request.getParameter("aid");
         String st = request.getParameter("st");
@@ -84,12 +85,13 @@ public class ManageAccount extends HttpServlet {
             }
             int idx = Integer.parseInt(idx_r);
 
-            int count = d.getTotalAccount();
+            int count = d.getTotalAccount(search);
             int endPage = count / 10;
             if (endPage % 10 != 0) {
                 endPage++;
             }
-            List<User> list1 = d.getAccount(idx);
+            List<User> list1 = d.getAccount(idx,search);
+            request.setAttribute("search", search);
             request.setAttribute("endP", endPage);
             request.setAttribute("list1", list1);
             request.getRequestDispatcher("manage-account.jsp").forward(request, response);
